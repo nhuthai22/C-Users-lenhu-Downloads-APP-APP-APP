@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giới Thiệu - Đặt Vé Xe</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url('/images/background.jpg') no-repeat center center/cover;
+            color: #333;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.9); /* Nền sáng cho navbar */
+            transition: background-color 0.5s;
+        }
+
+        .navbar-brand,
+        .nav-link {
+            color: #007bff !important; /* Màu chữ sáng */
+            font-weight: bold;
+        }
+
+        .navbar:hover {
+            background-color: rgba(255, 255, 255, 1); /* Nền trắng khi hover */
+        }
+
+        .section-intro {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: rgba(0, 123, 255, 0.1); /* Nền nhẹ cho phần giới thiệu */
+            padding: 20px;
+            border-radius: 15px; /* Bo góc cho phần giới thiệu */
+        }
+
+        .section-intro h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: #007bff; /* Màu chữ tiêu đề sáng */
+        }
+
+        .section-intro p {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+            margin-bottom: 30px;
+            color: #555; /* Màu chữ thân thiện hơn */
+        }
+
+        .btn-custom {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 30px;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            transition: background-color 0.3s;
+        }
+
+        .btn-custom:hover {
+            background-color: #0056b3; /* Màu tối hơn khi hover */
+        }
+
+        .section-content {
+            padding: 60px 0;
+            background-color: rgba(255, 255, 255, 0.9); /* Nền sáng hơn cho nội dung */
+            border-radius: 15px; /* Bo góc cho phần nội dung */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng cho phần nội dung */
+        }
+
+        .section-content h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #007bff; /* Màu chữ tiêu đề nội dung */
+        }
+
+        .footer {
+            background-color: rgba(255, 255, 255, 0.9); /* Nền sáng cho footer */
+            padding: 20px;
+            text-align: center;
+            color: #333;
+            border-top: 1px solid #007bff; /* Đường viền trên cho footer */
+        }
+
+        .footer a {
+            color: #007bff; /* Màu chữ cho các liên kết */
+            transition: color 0.3s; /* Hiệu ứng chuyển đổi màu chữ */
+        }
+
+        .footer a:hover {
+            color: #0056b3; /* Màu tối hơn khi hover */
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Đặt Vé Xe</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/booking/trangchu">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/datve/ticket">Đặt vé</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/gioithieu/gioithieu">Giới thiệu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/lienhe/lienhe">Liên hệ</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Intro Section -->
+    <section class="section-intro">
+        <h1>Về Hệ Thống Đặt Vé Xe</h1>
+        <p>Chào mừng bạn đến với hệ thống đặt vé xe khách trực tuyến hàng đầu Việt Nam. Chúng tôi cam kết mang đến cho khách hàng dịch vụ tiện lợi, nhanh chóng, và an toàn.</p>
+        <a href="/datve/ticket" class="btn btn-custom">Đặt vé ngay</a>
+    </section>
+
+    <!-- Giới Thiệu Section -->
+    <section class="section-content">
+        <div class="container">
+            <h2>Về Chúng Tôi</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Sứ Mệnh</h3>
+                    <p>Hệ thống Đặt Vé Xe ra đời với mục tiêu tối ưu hóa quá trình đặt vé xe khách cho người dùng. Chúng tôi giúp bạn đặt vé dễ dàng, tiết kiệm thời gian và công sức khi không phải xếp hàng hoặc lo lắng về vé. Sứ mệnh của chúng tôi là cung cấp trải nghiệm đặt vé trực tuyến mượt mà, bảo mật và đáng tin cậy.</p>
+                </div>
+                <div class="col-md-6">
+                    <h3>Tầm Nhìn</h3>
+                    <p>Chúng tôi hướng đến trở thành hệ thống đặt vé xe khách số 1 tại Việt Nam, nơi khách hàng có thể tìm và mua vé từ nhiều nhà xe uy tín với chỉ một vài thao tác đơn giản. Hệ thống của chúng tôi sẽ không ngừng phát triển, nâng cấp các tính năng và dịch vụ nhằm đáp ứng tốt nhất nhu cầu của người dùng.</p>
+                </div>
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-md-6">
+                    <h3>Tiện Ích Đặt Vé</h3>
+                    <p>Với Đặt Vé Xe, bạn có thể tìm kiếm và chọn lựa tuyến xe, nhà xe, thời gian khởi hành và giá vé phù hợp với nhu cầu của mình. Hệ thống cung cấp nhiều phương thức thanh toán an toàn và tiện lợi, từ thanh toán trực tuyến đến thanh toán khi nhận vé.</p>
+                </div>
+                <div class="col-md-6">
+                    <h3>Đối Tác Nhà Xe</h3>
+                    <p>Chúng tôi hợp tác với nhiều nhà xe uy tín trên khắp Việt Nam, đảm bảo mang đến cho bạn những chuyến đi an toàn, thoải mái. Mỗi đối tác nhà xe đều được chúng tôi kiểm tra kỹ lưỡng để đảm bảo chất lượng dịch vụ và sự an toàn cho hành khách.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2024 Đặt vé xe trực tuyến. Mọi quyền được bảo lưu. | <a href="#" style="color: #fff;">Điều khoản sử dụng</a> | <a href="#" style="color: #fff;">Chính sách bảo mật</a></p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

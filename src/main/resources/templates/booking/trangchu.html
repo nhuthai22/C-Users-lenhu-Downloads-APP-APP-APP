@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt Vé Xe - Trang Chủ Hiện Đại</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+
+        .navbar {
+            background-color: rgba(0, 123, 255, 0.9);
+        }
+
+        .navbar-brand, .nav-link {
+            color: #fff !important;
+            font-weight: 600;
+        }
+
+        .hero {
+            height: 100vh;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://source.unsplash.com/1600x900/?bus,travel') no-repeat center center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 20px rgba(0, 0, 0, 0.7);
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .btn-custom {
+            background-color: #28a745;
+            color: #fff;
+            padding: 15px 40px;
+            font-size: 1.3rem;
+            border-radius: 30px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            background-color: #218838;
+            transform: translateY(-5px);
+        }
+
+        /* Section Highlight */
+        .section-highlight {
+            padding: 60px 0;
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .section-highlight h2 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .section-highlight p {
+            font-size: 1.3rem;
+        }
+
+        .btn-highlight {
+            background-color: #ffc107;
+            padding: 12px 30px;
+            border-radius: 30px;
+            color: #333;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn-highlight:hover {
+            background-color: #e0a800;
+            transform: translateY(-5px);
+        }
+
+        /* Card Section */
+        .card-section {
+            margin-top: 50px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .card {
+            border-radius: 15px;
+            overflow: hidden;
+            background-color: #fff;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 3rem;
+            color: rgba(0, 123, 255, 0.8);
+        }
+
+        .footer {
+            background-color: #333;
+            color: #fff;
+            padding: 30px 0;
+            text-align: center;
+        }
+
+        .footer a {
+            color: #ffc107;
+        }
+
+        /* Scroll Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .section-highlight h2 {
+                font-size: 2.2rem;
+            }
+
+            .section-highlight p {
+                font-size: 1.1rem;
+            }
+
+            .btn-custom, .btn-highlight {
+                padding: 10px 20px;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">Đặt Vé Xe</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/booking/trangchu">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/datve/ticket">Đặt vé</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/gioithieu/gioithieu">Giới thiệu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/lienhe/lienhe">Liên hệ</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h1>Đặt Vé Xe Nhanh Chóng</h1>
+        <p>Trải nghiệm dịch vụ đặt vé trực tuyến hiện đại.</p>
+        <a href="#" class="btn btn-custom">Đặt vé ngay</a>
+    </div>
+
+    <div class="container my-5">
+        <!-- Search form -->
+        <div class="search-section mt-4">
+            <form class="row g-2 align-items-center">
+                <div class="col-md-3">
+                    <label for="departure">Nơi xuất phát</label>
+                    <input type="text" id="departure" class="form-control" placeholder="Chọn nơi xuất phát">
+                </div>
+                <div class="col-md-3">
+                    <label for="destination">Nơi đến</label>
+                    <input type="text" id="destination" class="form-control" placeholder="Chọn nơi đến">
+                </div>
+                <div class="col-md-2">
+                    <label for="departureDate">Ngày khởi hành</label>
+                    <input type="date" id="departureDate" class="form-control">
+                </div>                
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-search w-100">Tìm chuyến xe</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="section-highlight">
+        <h2>Nhanh Chóng và Tiện Lợi</h2>
+        <p>Đặt vé xe khách với vài bước đơn giản, nhanh chóng và tiện lợi.</p>
+        <a href="#" class="btn btn-highlight">Khuyến Mãi Đặc Biệt</a>
+    </div>
+
+    <div class="container card-section">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <span class="card-icon">&#128652;</span>
+                    <img src="https://source.unsplash.com/400x300/?bus" alt="bus" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">Dịch vụ chuyên nghiệp</h5>
+                        <p class="card-text">Chúng tôi cung cấp dịch vụ với chất lượng tốt nhất, giá cả cạnh tranh.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <span class="card-icon">&#128179;</span>
+                    <img src="https://source.unsplash.com/400x300/?ticket" alt="ticket" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">Dễ dàng sử dụng</h5>
+                        <p class="card-text">Giao diện dễ dùng, giúp bạn đặt vé chỉ trong vài bước.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <span class="card-icon">&#128222;</span>
+                    <img src="https://source.unsplash.com/400x300/?support" alt="support" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">Hỗ trợ 24/7</h5>
+                        <p class="card-text">Đội ngũ hỗ trợ luôn sẵn sàng giúp đỡ bạn mọi lúc.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2024 Đặt vé xe trực tuyến. | <a href="#">Chính sách bảo mật</a> | <a href="#">Điều khoản sử dụng</a></p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

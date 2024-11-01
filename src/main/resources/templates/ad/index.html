@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Bus Ticket Management</title>
+   	
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Nhúng SweetAlert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<style>
+
+/* Container Styles */
+.details {
+    background-color: #ffffff; /* White background for details section */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 20px; /* Padding inside the container */
+}
+
+/* Section Titles */
+.details h2 {
+    color: #007bff; /* Blue color for section titles */
+    margin-bottom: 15px; /* Space below titles */
+}
+
+/* Form Styles */
+.user-form {
+    background-color: #ffffff; /* White background for the form */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 20px; /* Padding inside the form */
+    margin-bottom: 20px; /* Space below the form */
+}
+
+.form-outline {
+    margin-bottom: 15px; /* Space between form fields */
+}
+
+.form-label {
+    display: block; /* Ensures labels are on their own line */
+    margin-bottom: 5px; /* Space between label and input */
+    font-weight: bold; /* Bold label text */
+}
+
+.form-control {
+    width: 100%; /* Full width for inputs */
+    padding: 10px; /* Padding inside the input fields */
+    border: 1px solid #ced4da; /* Light gray border */
+    border-radius: 4px; /* Rounded corners for inputs */
+    transition: border-color 0.3s; /* Smooth transition for border color */
+}
+
+.form-control:focus {
+    border-color: #007bff; /* Change border color on focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Subtle shadow on focus */
+}
+
+/* Role Selection Styles */
+.role-selection {
+    margin-bottom: 15px; /* Space below role selection */
+}
+
+.role-options label {
+    margin-right: 15px; /* Space between role options */
+}
+
+/* Button Styles */
+.button-group .btn {
+    padding: 10px 15px; /* Padding for buttons */
+    margin: 0 5px; /* Margin between buttons */
+    font-size: 16px; /* Adjusts font size */
+    border-radius: 4px; /* Rounded corners for buttons */
+    transition: background-color 0.3s; /* Smooth transition for background color */
+}
+
+.button-group .btn-outline-success {
+    color: #28a745; /* Green text */
+    border-color: #28a745; /* Green border */
+}
+
+.button-group .btn-outline-warning {
+    color: #ffc107; /* Yellow text */
+    border-color: #ffc107; /* Yellow border */
+}
+
+.button-group .btn-outline-danger {
+    color: #dc3545; /* Red text */
+    border-color: #dc3545; /* Red border */
+}
+
+.button-group .btn-outline-info {
+    color: #17a2b8; /* Cyan text */
+    border-color: #17a2b8; /* Cyan border */
+}
+
+/* Table Styles */
+.recentOrders {
+    margin-top: 20px; /* Space above the table */
+}
+
+.table {
+    width: 100%; /* Full width for the table */
+    border-collapse: collapse; /* Collapses borders */
+    background-color: #ffffff; /* White background for the table */
+    border-radius: 8px; /* Rounded corners */
+    overflow: hidden; /* Ensures corners are rounded */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.table th, .table td {
+    padding: 12px; /* Padding inside table cells */
+    text-align: left; /* Align text to the left */
+    border-bottom: 1px solid #dee2e6; /* Light gray border for table rows */
+}
+
+.table th {
+    background-color: #007bff; /* Blue background for headers */
+    color: white; /* White text for headers */
+    font-weight: bold; /* Bold text for headers */
+}
+
+.table tr:hover {
+    background-color: #f1f1f1; /* Light gray background on row hover */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .user-form {
+        padding: 15px; /* Adjust padding for smaller screens */
+    }
+
+    .table th, .table td {
+        padding: 10px; /* Adjust padding for smaller screens */
+    }
+
+    .button-group .btn {
+        font-size: 14px; /* Smaller font size for buttons */
+        padding: 8px 12px; /* Smaller padding for buttons */
+    }
+}
+
+/* Example CSS for styling navigation */
+.navigation ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+.navigation ul li {
+    margin: 10px 0;
+}
+.navigation ul li a {
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    align-items: center;
+}
+.navigation ul li a .icon {
+    margin-right: 8px;
+}
+
+/* Button Styles inside the Table Cell */
+.table td button {
+    padding: 10px 15px; /* Padding for buttons */
+    font-size: 14px; /* Font size for buttons */
+    border-radius: 4px; /* Rounded corners for buttons */
+    margin: 0 5px; /* Margin between buttons */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+}
+
+/* Specific styles for Edit button */
+.table td .btn-outline-warning {
+    color: #856404; /* Dark yellow text */
+    border-color: #ffc107; /* Yellow border */
+    background-color: transparent; /* Transparent background */
+}
+
+.table td .btn-outline-warning:hover {
+    color: #fff; /* White text on hover */
+    background-color: #ffc107; /* Yellow background on hover */
+    border-color: #ffc107; /* Keep border same color on hover */
+}
+
+/* Specific styles for Delete button */
+.table td .btn-outline-danger {
+    color: #721c24; /* Dark red text */
+    border-color: #dc3545; /* Red border */
+    background-color: transparent; /* Transparent background */
+}
+
+.table td .btn-outline-danger:hover {
+    color: #fff; /* White text on hover */
+    background-color: #dc3545; /* Red background on hover */
+    border-color: #dc3545; /* Keep border same color on hover */
+}
+
+/* =========== Google Fonts ============ */
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap");
+
+/* =============== Globals ============== */
+* {
+  font-family: "Ubuntu", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --blue: #2a2185;
+  --white: #fff;
+  --gray: #f5f5f5;
+  --black1: #222;
+  --black2: #999;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+}
+
+/* =============== Navigation ================ */
+.navigation {
+  position: fixed;
+  width: 300px;
+  height: 100%;
+  background: var(--blue);
+  border-left: 10px solid var(--blue);
+  transition: 0.5s;
+  overflow: hidden;
+}
+.navigation.active {
+  width: 80px;
+}
+
+.navigation ul {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.navigation ul li {
+  position: relative;
+  width: 100%;
+  list-style: none;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+}
+
+.navigation ul li:hover,
+.navigation ul li.hovered {
+  background-color: var(--white);
+}
+
+.navigation ul li:nth-child(1) {
+  margin-bottom: 40px;
+  pointer-events: none;
+}
+
+.navigation ul li a {
+  position: relative;
+  display: block;
+  width: 100%;
+  display: flex;
+  text-decoration: none;
+  color: var(--white);
+}
+.navigation ul li:hover a,
+.navigation ul li.hovered a {
+  color: var(--blue);
+}
+
+.navigation ul li a .icon {
+  position: relative;
+  display: block;
+  min-width: 60px;
+  height: 60px;
+  line-height: 75px;
+  text-align: center;
+}
+.navigation ul li a .icon ion-icon {
+  font-size: 1.75rem;
+}
+
+.navigation ul li a .title {
+  position: relative;
+  display: block;
+  padding: 0 10px;
+  height: 60px;
+  line-height: 60px;
+  text-align: start;
+  white-space: nowrap;
+}
+
+/* --------- curve outside ---------- */
+.navigation ul li:hover a::before,
+.navigation ul li.hovered a::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: -50px;
+  width: 50px;
+  height: 50px;
+  background-color: transparent;
+  border-radius: 50%;
+  box-shadow: 35px 35px 0 10px var(--white);
+  pointer-events: none;
+}
+.navigation ul li:hover a::after,
+.navigation ul li.hovered a::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -50px;
+  width: 50px;
+  height: 50px;
+  background-color: transparent;
+  border-radius: 50%;
+  box-shadow: 35px -35px 0 10px var(--white);
+  pointer-events: none;
+}
+
+/* ===================== Main ===================== */
+.main {
+  position: absolute;
+  width: calc(100% - 300px);
+  left: 300px;
+  min-height: 100vh;
+  background: var(--white);
+  transition: 0.5s;
+}
+.main.active {
+  width: calc(100% - 80px);
+  left: 80px;
+}
+
+.topbar {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.toggle {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.5rem;
+  cursor: pointer;
+}
+
+.search {
+  position: relative;
+  width: 400px;
+  margin: 0 10px;
+}
+
+.search label {
+  position: relative;
+  width: 100%;
+}
+
+.search label input {
+  width: 100%;
+  height: 40px;
+  border-radius: 40px;
+  padding: 5px 20px;
+  padding-left: 35px;
+  font-size: 18px;
+  outline: none;
+  border: 1px solid var(--black2);
+}
+
+.search label ion-icon {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  font-size: 1.2rem;
+}
+
+.user {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  text-align: center;
+}
+
+
+/* ======================= Cards ====================== */
+.cardBox {
+  position: relative;
+  width: 100%;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 30px;
+}
+
+.cardBox .card {
+  position: relative;
+  background: var(--white);
+  padding: 30px;
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+}
+
+.cardBox .card .numbers {
+  position: relative;
+  font-weight: 500;
+  font-size: 2.5rem;
+  color: var(--blue);
+}
+
+.cardBox .card .cardName {
+  color: var(--black2);
+  font-size: 1.1rem;
+  margin-top: 5px;
+}
+
+.cardBox .card .iconBx {
+  font-size: 3.5rem;
+  color: var(--black2);
+}
+
+.cardBox .card:hover {
+  background: var(--blue);
+}
+.cardBox .card:hover .numbers,
+.cardBox .card:hover .cardName,
+.cardBox .card:hover .iconBx {
+  color: var(--white);
+}
+
+/* ================== Order Details List ============== */
+
+
+/* ====================== Responsive Design ========================== */
+@media (max-width: 991px) {
+  .navigation {
+    left: -300px;
+  }
+  .navigation.active {
+    width: 300px;
+    left: 0;
+  }
+  .main {
+    width: 100%;
+    left: 0;
+  }
+  .main.active {
+    left: 300px;
+  }
+  .cardBox {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .details {
+    grid-template-columns: 1fr;
+  }
+  .recentOrders {
+    overflow-x: auto;
+  }
+  .status.inProgress {
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .cardBox {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .cardHeader h2 {
+    font-size: 20px;
+  }
+  .user {
+    min-width: 40px;
+  }
+  .navigation {
+    width: 100%;
+    left: -100%;
+    z-index: 1000;
+  }
+  .navigation.active {
+    width: 100%;
+    left: 0;
+  }
+  .toggle {
+    z-index: 10001;
+  }
+  .main.active .toggle {
+    color: #fff;
+    position: fixed;
+    right: 0;
+    left: initial;
+  }
+}
+
+
+</style>
+<body ng-app="myApp" ng-controller="myCtrl">
+    <!-- =============== Navigation ================ -->
+    <div class="container">
+        <div class="navigation">
+            <ul>
+                <li>
+                    <a href="#">
+                        <span class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bus-front" viewBox="0 0 16 16">
+                                <path d="M5 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0m8 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m-6-1a1 1 0 1 0 0 2h2a1 1 0 1 0 0-2zm1-6c-1.876 0-3.426.109-4.552.226A.5.5 0 0 0 3 4.723v3.554a.5.5 0 0 0 .448.497C4.574 8.891 6.124 9 8 9s3.426-.109 4.552-.226A.5.5 0 0 0 13 8.277V4.723a.5.5 0 0 0-.448-.497A44 44 0 0 0 8 4m0-1c-1.837 0-3.353.107-4.448.22a.5.5 0 1 1-.104-.994A44 44 0 0 1 8 2c1.876 0 3.426.109 4.552.226a.5.5 0 1 1-.104.994A43 43 0 0 0 8 3"/>
+                                <path d="M15 8a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1V2.64c0-1.188-.845-2.232-2.064-2.372A44 44 0 0 0 8 0C5.9 0 4.208.136 3.064.268 1.845.408 1 1.452 1 2.64V4a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1v3.5c0 .818.393 1.544 1 2v2a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5V14h6v1.5a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5v-2c.607-.456 1-1.182 1-2zM8 1c2.056 0 3.71.134 4.822.261.676.078 1.178.66 1.178 1.379v8.86a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 11.5V2.64c0-.72.502-1.301 1.178-1.379A43 43 0 0 1 8 1"/>
+                              </svg>
+                        </span>
+                        <span class="title">MY BUS</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <span class="icon">
+                            <ion-icon name="home-outline"></ion-icon>
+                        </span>
+                        <span class="title">Dashboard</span>
+                    </a>
+                </li>
+
+                <li ng-click="showForm('manageTickets')">
+            <a href="#">
+                <span class="icon"><ion-icon name="ticket-outline"></ion-icon></span>
+                <span class="title">Quản lý vé</span>
+            </a>
+        </li>
+        <li ng-click="showForm('manageBuses')">
+            <a href="#">
+                <span class="icon"><ion-icon name="bus-outline"></ion-icon></span>
+                <span class="title">Quản lý xe</span>
+            </a>
+        </li>
+        <li ng-click="showForm('manageCustomers')">
+            <a href="#">
+                <span class="icon"><ion-icon name="people-outline"></ion-icon></span>
+                <span class="title">Quản lý người dùng</span>
+            </a>
+        </li>
+        
+        <li ng-click="showForm('manageTrips')" ng-class="{'active': currentForm === 'manageTrips'}">
+    <a href="#">
+        <span class="icon">
+            <ion-icon name="people-outline"></ion-icon>
+        </span>
+        <span class="title">Quản lý tuyến đường</span>
+    </a>
+</li>
+
+        
+        
+              
+                <li>
+                    <a href="/security/logoff" class="btn btn-outline-danger">		
+                        <span class="icon">
+                            <ion-icon name="log-out-outline"></ion-icon>
+                        </span>
+                        <span class="title">Sign Out</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- ========================= Main ==================== -->
+        <div class="main">
+            <div class="topbar">
+                <div class="toggle">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
+
+                <div class="search">
+                    <label>
+                        <input type="text" placeholder="Search here">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </label>
+                </div>
+           	
+            </div>
+
+            <!-- ======================= Cards ================== -->
+            <div class="cardBox">
+                <div class="card">
+                    <div>
+                        <div class="numbers">1,504</div>
+                        <div class="cardName">Daily Ticket Sales</div>
+                    </div>
+
+                    <div class="iconBx">
+                        <ion-icon name="ticket-outline"></ion-icon>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <div class="numbers">80</div>
+                        <div class="cardName">Buses Available</div>
+                    </div>
+
+                    <div class="iconBx">
+                        <ion-icon name="bus-outline"></ion-icon>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <div class="numbers">284</div>
+                        <div class="cardName">Total Customers</div>
+                    </div>
+
+                    <div class="iconBx">
+                        <ion-icon name="people-outline"></ion-icon>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <div class="numbers">$7,842</div>
+                        <div class="cardName">Total Earnings</div>
+                    </div>
+
+                    <div class="iconBx">
+                        <ion-icon name="cash-outline"></ion-icon>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================ Order Details List ================= -->
+			<div class="details">
+    			<div ng-show="currentForm === 'manageTickets'">
+        			<h2>Quản lý vé</h2>
+        			<div class="container2">
+    <form class="ticket-form" ng-submit="form.ticketId ? updateTicket() : createTicket()">
+		<div class="form-outline">
+    		<label class="form-label" for="ticketId">Ticket ID:</label>
+    		<input ng-model="ticketForm.ticketId" type="text" id="ticketId" class="form-control" required ng-disabled="true" />
+		</div>
+
+        <div class="form-outline">
+            <label class="form-label" for="passengerName">Passenger Name:</label>
+            <input ng-model="ticketForm.passengerName" type="text" id="passengerName" class="form-control" required />
+        </div>
+
+        <div class="form-outline">
+            <label class="form-label" for="seatNumber">Seat Number:</label>
+            <input ng-model="ticketForm.seatNumber" type="number" id="seatNumber" class="form-control" required />
+        </div>
+
+        <div class="form-outline">
+            <label class="form-label" for="status">Status:</label>
+            <input ng-model="ticketForm.status" type="text" id="status" class="form-control" required />
+        </div>
+
+        <!-- Submit buttons -->
+        <div class="d-flex justify-content-center mb-4 button-group">
+            <button type="button" ng-click="createTicket()" class="btn btn-outline-success">Create</button>
+            <button type="button" ng-click="updateTicket()" class="btn btn-outline-warning" ng-disabled="!ticketForm.ticketId">Update</button>
+            <button type="button" ng-click="deleteTicket(ticketForm)" class="btn btn-outline-danger" ng-disabled="!ticketForm.ticketId">Delete</button>
+            <button type="button" ng-click="resetTicketForm()" class="btn btn-outline-info">Reset</button>
+        </div>
+    </form>
+
+    <div class="recentOrders">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID Vé</th>
+                   
+                    <th>Tên Hành Khách</th>
+                    <th>Số Ghế</th>
+                    <th>Trạng Thái</th>
+                    <th>Hành Động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="ticket in tickets">
+                    <td>{{ ticket.id }}</td>
+          
+                    <td>{{ ticket.passengerName }}</td>
+                    <td>{{ ticket.seatNumber }}</td>
+                    <td>{{ ticket.status }}</td>
+                    <td>
+                        <button ng-click="editTicket(ticket)" class="btn btn-outline-warning">Edit</button>
+                        <button ng-click="deleteTicket(ticket)" class="btn btn-outline-danger">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+        			 			
+    			</div>
+
+    			<div ng-show="currentForm === 'manageBuses'">
+        			<h2>Quản lý xe</h2>
+	<div class="container2">
+    <form class="vehicle-form" ng-submit="form.vehicleNumber ? updateVehicle() : createVehicle()">
+        <div class="form-outline">
+            <label class="form-label" for="vehicleNumber">Vehicle Number:</label>
+            <input ng-model="vehicleForm.vehicleNumber" type="text" id="vehicleNumber" class="form-control" required />
+        </div>
+
+        <div class="form-outline">
+            <label class="form-label" for="vehicleType">Vehicle Type:</label>
+            <input ng-model="vehicleForm.vehicleType" type="text" id="vehicleType" class="form-control" required />
+        </div>
+
+        <div class="form-outline">
+            <label class="form-label" for="seatCount">Seat Count:</label>
+            <input ng-model="vehicleForm.seatCount" type="number" id="seatCount" class="form-control" required />
+        </div>
+
+        <div class="form-outline">
+            <label class="form-label" for="status">Status:</label>
+            <input ng-model="vehicleForm.status" type="text" id="status" class="form-control" required />
+        </div>
+
+        <!-- Submit buttons -->
+        <div class="d-flex justify-content-center mb-4 button-group">
+            <button type="button" ng-click="createVehicle()" class="btn btn-outline-success">Create</button>
+            <button type="button" ng-click="updateVehicle()" class="btn btn-outline-warning" ng-disabled="!vehicleForm.vehicleNumber">Update</button>
+            <button type="button" ng-click="deleteVehicle(vehicleForm)" class="btn btn-outline-danger" ng-disabled="!vehicleForm.vehicleNumber">Delete</button>
+            <button type="button" ng-click="resetVehicleForm()" class="btn btn-outline-info">Reset</button>
+        </div>
+    </form>
+
+    <div class="recentOrders">
+        <table class="table table-bordered text-center">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Vehicle Number</th>
+                    <th>Vehicle Type</th>
+                    <th>Seat Count</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in vehicles">
+                    <td>{{$index + 1}}</td>
+                    <td>{{item.vehicleNumber}}</td>
+                    <td>{{item.vehicleType}}</td>
+                    <td>{{item.seatCount}}</td>
+                    <td>{{item.status}}</td>
+                    <td>
+                        <button ng-click="editVehicle(item)" class="btn btn-outline-warning">Edit</button>
+                        <button ng-click="deleteVehicle(item)" class="btn btn-outline-danger">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+					       			
+    			</div>
+
+    			<div ng-show="currentForm === 'manageCustomers'">
+        			<h2>Quản lý người dùng</h2>
+        			<div class="container2">
+    <div th:if="${userInfo.role}">
+        <form class="user-form">
+            <div class="form-outline">
+                <label class="form-label" for="username">Username:</label>
+                <input ng-model="form.username" type="text" id="username" class="form-control" required />
+            </div>
+
+            <div class="form-outline">
+                <label class="form-label" for="password">Password:</label>
+                <input ng-model="form.password" type="password" id="password" class="form-control" required />
+            </div>
+
+            <div class="form-outline">
+                <label class="form-label" for="fullname">Fullname:</label>
+                <input ng-model="form.fullname" type="text" id="fullname" class="form-control" required />
+            </div>
+
+            <div class="form-outline">
+                <label class="form-label" for="email">Email:</label>
+                <input ng-model="form.email" type="email" id="email" class="form-control" required />
+            </div>
+
+            <div class="form-outline role-selection">
+                <label class="form-label">Role:</label>
+                <div class="role-options">
+                    <label>
+                        <input ng-model="form.role" class="form-check-input" ng-value="true" type="radio" required />
+                        Admin
+                    </label>
+                    <label>
+                        <input ng-model="form.role" class="form-check-input" ng-value="false" type="radio" required />
+                        User
+                    </label>
+                </div>
+            </div>
+
+            <!-- Submit buttons -->
+            <div class="d-flex justify-content-center mb-4 button-group">
+                <button ng-click="createAccount()" class="btn btn-outline-success">Create</button>
+                <button ng-click="updateAccount()" class="btn btn-outline-warning">Update</button>
+                <button ng-click="deleteAccount(form)" class="btn btn-outline-danger">Delete</button>
+                <button ng-click="reset()" class="btn btn-outline-info">Reset</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="recentOrders">
+    <table class="table table-bordered text-center">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Username</th>
+                <th>Fullname</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th th:if="${userInfo.role}">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in items | filter:searchName">
+                <td>{{$index + 1}}</td>
+                <td>{{item.username}}</td>
+                <td>{{item.fullname}}</td>
+                <td>{{item.email}}</td>
+                <td>{{item.role ? 'ADMIN' : 'USER'}}</td>
+                <td th:if="${userInfo.role}">
+                    <button ng-click="editAccount(item)" class="btn btn-outline-warning">Edit</button>
+                    <button ng-click="deleteAccount(item)" class="btn btn-outline-danger">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+        			
+				</div>
+				
+<div ng-show="currentForm === 'manageTrips'">
+    <h2>Quản lý tuyến đường</h2>
+    <div class="container2">
+        <form class="user-form">
+            <div class="form-outline">
+                <label class="form-label" for="routeCode">Mã số:</label>
+                <input ng-model="tripForm.id" type="number" id="routeCode" class="form-control" required />
+            </div>
+
+            <div class="form-outline">
+                <label class="form-label" for="departure">Khởi hành:</label>
+                <input ng-model="tripForm.departure" type="text" id="departure" class="form-control" required />
+            </div>
+
+            <div class="form-outline">
+                <label class="form-label" for="destination">Điểm đến:</label>
+                <input ng-model="tripForm.destination" type="text" id="destination" class="form-control" required />
+            </div>
+
+            <div class="form-outline">
+                <label class="form-label" for="departureTime">Ngày khởi hành:</label>
+                <input ng-model="tripForm.departureTime" ng-init="tripForm.departureTime = '2023-11-01'" type="date" id="departureTime" class="form-control" required />
+            </div>
+
+            <div class="form-outline">
+                <label class="form-label" for="arrivalTime">Ngày kết thúc:</label>
+                <input ng-model="tripForm.arrivalTime" ng-init="tripForm.arrivalTime = '2023-11-01'" type="date" id="arrivalTime" class="form-control" required />
+            </div>
+
+            <div class="form-outline">
+                <label class="form-label" for="vehicleId">ID Xe:</label>
+                <input ng-model="tripForm.vehicle.id" type="text" id="vehicleId" class="form-control" required />
+            </div>
+
+            <!-- Submit buttons -->
+            <div class="d-flex justify-content-center mb-4 button-group">
+                <button ng-click="createTrip()" class="btn btn-outline-success">Create</button>
+                <button ng-click="updateTrip()" class="btn btn-outline-warning">Update</button>
+                <button ng-click="deleteTrip(tripForm)" class="btn btn-outline-danger">Delete</button>
+                <button ng-click="resetTripForm()" class="btn btn-outline-info">Reset</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="recentOrders">
+        <table class="table table-bordered text-center">
+            <thead>
+                <tr>
+                    <th>Mã số</th>
+                    <th>Khởi hành</th>
+                    <th>Điểm đến</th>
+                    <th>Ngày khởi hành</th>
+                    <th>Ngày kết thúc</th>
+                    <th>Xe số</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in trips">
+                    <td>{{item.id}}</td>
+                    <td>{{item.departure}}</td>
+                    <td>{{item.destination}}</td>
+                    <td>{{item.departureTime | date:'dd/MM/yyyy'}}</td>
+                    <td>{{item.arrivalTime | date:'dd/MM/yyyy'}}</td>
+                    <td>{{item.vehicle.id}}</td>
+                    <td>
+                        <button ng-click="editTrip(item)" class="btn btn-outline-warning">Edit</button>
+                        <button ng-click="deleteTrip(item)" class="btn btn-outline-danger">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+			
+        </div>  
+    
+
+    <!-- =========== Scripts =========  -->
+    <script src="assets/js/main.js"></script>
+
+    <!-- ====== ionicons ======= -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="../../static/js/account.js"></script>
+<script>
+    // Tạo module AngularJS
+    var app = angular.module("myApp", []);
+	
+    // Tạo controller myCtrl
+    app.controller("myCtrl", function ($scope, $http) {
+    	
+    	
+        // Khởi tạo biến form và items cho chức năng quản lý
+        $scope.form = {};
+        $scope.items = [];
+        $scope.currentForm = 'dashboard'; // Biến để xác định form hiện tại
+
+        // Khởi tạo biến cho quản lý vé
+        $scope.tickets = []; // Danh sách vé
+        $scope.ticketForm = {}; // Biến lưu thông tin vé
+
+        // Khởi tạo biến cho quản lý xe
+        $scope.vehicles = []; // Danh sách xe
+        $scope.vehicleForm = {}; // Biến lưu thông tin xe
+
+        // Khởi tạo biến cho quản lý người dùng
+        $scope.accounts = []; // Danh sách người dùng
+        $scope.accountForm = {}; // Biến lưu thông tin người dùng
+
+        // Khởi tạo biến cho quản lý chuyến đi
+        $scope.trips = []; // Danh sách chuyến đi
+        $scope.tripForm = {};
+	
+        // Chức năng load dữ liệu tất cả vé
+        $scope.load_tickets = function () {
+            $http.get(`/rest/tickets`).then(resp => {
+                $scope.tickets = resp.data;
+                console.log("Success", resp);
+            }).catch(error => {
+                console.log("Error", error);
+            });
+        };
+
+        // Thêm mới vé
+        $scope.createTicket = function () {
+            var ticket = angular.copy($scope.ticketForm);
+            $http.post(`/rest/tickets`, ticket).then(resp => {
+                $scope.tickets.push(resp.data);
+                $scope.resetTicketForm();
+                Swal.fire({
+                    icon: "success",
+                    title: "Thêm Vé Thành công",
+                    text: "Vé đã được thêm vào danh sách",
+                });
+            }).catch(error => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Lỗi",
+                    text: "Thêm mới vé gặp trục trặc",
+                });
+            });
+        };
+
+        // Chỉnh sửa vé
+        $scope.editTicket = function (ticket) {
+            $scope.ticketForm.ticketId = ticket.id; // Gán Ticket ID
+            $scope.ticketForm.passengerName = ticket.passengerName; // Gán tên hành khách
+            $scope.ticketForm.seatNumber = ticket.seatNumber; // Gán số ghế
+            $scope.ticketForm.status = ticket.status; // Gán trạng thái
+        };
+
+        // Cập nhật vé
+        $scope.updateTicket = function () {
+            var ticket = angular.copy($scope.ticketForm);
+            $http.put(`/rest/tickets/${ticket.ticketId}`, ticket).then(resp => {
+                var index = $scope.tickets.findIndex(t => t.ticketId == ticket.ticketId);
+                if (index !== -1) {
+                    $scope.tickets[index] = ticket;
+                }
+                $scope.resetTicketForm();
+                Swal.fire({
+                    icon: "success",
+                    title: "Cập nhật Vé Thành công",
+                    text: "Vé đã được cập nhật",
+                });
+            }).catch(error => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Lỗi",
+                    text: "Cập nhật vé gặp trục trặc",
+                });
+            });
+        };
+
+        // Xóa vé
+        $scope.deleteTicket = function (ticket) {
+            $http.delete(`/rest/tickets/${ticket.ticketId}`).then(resp => {
+                var index = $scope.tickets.findIndex(t => t.ticketId == ticket.ticketId);
+                if (index !== -1) {
+                    $scope.tickets.splice(index, 1);
+                }
+                $scope.resetTicketForm();
+                Swal.fire({
+                    icon: "success",
+                    title: "Xóa Vé Thành công",
+                    text: "Vé đã được xóa khỏi danh sách",
+                });
+            }).catch(error => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Lỗi",
+                    text: "Xóa vé gặp trục trặc",
+                });
+            });
+        };
+
+        // Chức năng load dữ liệu tất cả xe
+        $scope.load_vehicles = function () {
+            $http.get(`/rest/vehicles`).then(resp => {
+                $scope.vehicles = resp.data;
+                console.log("Success", resp);
+            }).catch(error => {
+                console.log("Error", error);
+            });
+        };
+
+        // Thêm mới xe
+        $scope.createVehicle = function () {
+            var vehicle = angular.copy($scope.vehicleForm);
+            $http.post(`/rest/vehicles`, vehicle).then(resp => {
+                $scope.vehicles.push(resp.data);
+                $scope.resetVehicleForm();
+                Swal.fire({
+                    icon: "success",
+                    title: "Thêm Xe Thành công",
+                    text: "Xe đã được thêm vào danh sách",
+                });
+            }).catch(error => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Lỗi",
+                    text: "Thêm mới xe gặp trục trặc",
+                });
+            });
+        };
+
+        // Chỉnh sửa xe
+        $scope.editVehicle = function (vehicle) {
+            $scope.vehicleForm = angular.copy(vehicle);
+        };
+
+        // Cập nhật xe
+        $scope.updateVehicle = function () {
+            var vehicle = angular.copy($scope.vehicleForm);
+            $http.put(`/rest/vehicles/${vehicle.id}`, vehicle).then(resp => {
+                var index = $scope.vehicles.findIndex(v => v.id == vehicle.id); // Sử dụng id thay vì vehicleNumber
+                if (index !== -1) {
+                    $scope.vehicles[index] = resp.data; // Cập nhật dữ liệu từ phản hồi
+                }
+                $scope.resetVehicleForm();
+                Swal.fire({
+                    icon: "success",
+                    title: "Cập nhật Xe Thành công",
+                    text: "Xe đã được cập nhật",
+                });
+            }).catch(error => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Lỗi",
+                    text: "Cập nhật xe gặp trục trặc",
+                });
+            });
+        };
+
+        // Xóa xe
+        $scope.deleteVehicle = function (vehicle) {
+            Swal.fire({
+                title: "Bạn có chắc chắn muốn xóa xe này?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Có, xóa!",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $http.delete(`/rest/vehicles/${vehicle.id}`).then(resp => {
+                        var index = $scope.vehicles.findIndex(v => v.id == vehicle.id); // Sử dụng id
+                        if (index !== -1) {
+                            $scope.vehicles.splice(index, 1);
+                        }
+                        $scope.resetVehicleForm();
+                        Swal.fire({
+                            icon: "success",
+                            title: "Xóa Xe Thành công",
+                            text: "Xe đã được xóa khỏi danh sách",
+                        });
+                    }).catch(error => {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Lỗi",
+                            text: "Xóa xe gặp trục trặc",
+                        });
+                    });
+                }
+            });
+        };
+
+        // Chức năng load dữ liệu tất cả người dùng
+        $scope.load_accounts = function () {
+            $http.get(`/rest/accounts`).then(resp => {
+                $scope.items = resp.data;
+                console.log("Success", resp);
+            }).catch(error => {
+                console.log("Error", error);
+            });
+        };
+
+        // Chỉnh sửa người dùng
+        $scope.editAccount = function (item) {
+            $scope.form = angular.copy(item);
+        };
+
+        // Thêm mới người dùng
+        $scope.createAccount = function () {
+            var item = angular.copy($scope.form);
+            $http.post(`/rest/accounts`, item).then(resp => {
+                $scope.items.push(resp.data);
+                $scope.reset();
+                Swal.fire({
+                    icon: "success",
+                    title: "Thêm Thành công",
+                    text: "Người dùng mới đã được thêm vào danh sách",
+                });
+            }).catch(error => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Lỗi",
+                    text: "Thêm mới người dùng gặp trục trặc",
+                });
+            });
+        };
+
+        // Cập nhật người dùng
+        $scope.updateAccount = function () {
+            var item = angular.copy($scope.form);
+            $http.put(`/rest/accounts/${item.id}`, item).then(resp => {
+                var index = $scope.items.findIndex(p => p.id == item.id);
+                if (index !== -1) {
+                    $scope.items[index] = item;
+                }
+                $scope.reset();
+                Swal.fire({
+                    icon: "success",
+                    title: "Cập nhật người dùng Thành công",
+                    text: "Người dùng đã được cập nhật",
+                });
+            }).catch(error => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Lỗi",
+                    text: "Cập nhật người dùng gặp trục trặc",
+                });
+            });
+        };
+
+        // Xóa người dùng
+        $scope.deleteAccount = function (item) {
+            $http.delete(`/rest/accounts/${item.username}`).then(resp => {
+                var index = $scope.items.findIndex(p => p.username == item.username);
+                if (index !== -1) {
+                    $scope.items.splice(index, 1);
+                }
+                Swal.fire({
+                    icon: "success",
+                    title: "Xóa Thành công",
+                    text: "Người dùng đã được xóa khỏi danh sách",
+                });
+            }).catch(error => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Lỗi",
+                    text: "Xóa người dùng gặp trục trặc",
+                });
+            });
+        };
+
+        // Chức năng load dữ liệu tất cả chuyến đi
+        $scope.load_trips = function () {
+    $http.get(`/rest/trips`).then(resp => {
+        $scope.trips = resp.data;
+        console.log("Success", resp);
+    }).catch(error => {
+        console.log("Error", error);
+    });
+};
+
+
+        // Thêm mới chuyến đi
+        $scope.createTrip = function () {
+            var trip = angular.copy($scope.tripForm);
+            $http.post(`/rest/trips`, trip).then(resp => {
+                $scope.trips.push(resp.data);
+                $scope.resetTripForm();
+                Swal.fire({
+                    icon: "success",
+                    title: "Thêm Chuyến Đi Thành công",
+                    text: "Chuyến đi đã được thêm vào danh sách",
+                });
+            }).catch(error => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Lỗi",
+                    text: "Thêm mới chuyến đi gặp trục trặc",
+                });
+            });
+        };
+
+        // Chỉnh sửa chuyến đi
+        $scope.editTrip = function (trip) {
+            $scope.tripForm = angular.copy(trip);
+        };
+
+        // Cập nhật chuyến đi
+        $scope.updateTrip = function () {
+            var trip = angular.copy($scope.tripForm);
+            $http.put(`/rest/trips/${trip.id}`, trip).then(resp => {
+                var index = $scope.trips.findIndex(t => t.id == trip.id);
+                if (index !== -1) {
+                    $scope.trips[index] = trip;
+                }
+                $scope.resetTripForm();
+                Swal.fire({
+                    icon: "success",
+                    title: "Cập nhật Chuyến Đi Thành công",
+                    text: "Chuyến đi đã được cập nhật",
+                });
+            }).catch(error => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Lỗi",
+                    text: "Cập nhật chuyến đi gặp trục trặc",
+                });
+            });
+        };
+
+        // Xóa chuyến đi
+        $scope.deleteTrip = function (trip) {
+            $http.delete(`/rest/trips/${trip.id}`).then(resp => {
+                var index = $scope.trips.findIndex(t => t.id == trip.id);
+                if (index !== -1) {
+                    $scope.trips.splice(index, 1);
+                }
+                $scope.resetTripForm();
+                Swal.fire({
+                    icon: "success",
+                    title: "Xóa Chuyến Đi Thành công",
+                    text: "Chuyến đi đã được xóa khỏi danh sách",
+                });
+            }).catch(error => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Lỗi",
+                    text: "Xóa chuyến đi gặp trục trặc",
+                });
+            });
+        };
+
+        // Hàm reset các form
+        $scope.resetTicketForm = function () {
+            $scope.ticketForm = {};
+        };
+
+        $scope.resetVehicleForm = function () {
+            $scope.vehicleForm = {};
+        };
+
+        $scope.reset = function () {
+            $scope.form = {};
+        };
+
+        $scope.resetTripForm = function () {
+            $scope.tripForm = {};
+        };
+
+        // Hàm để chuyển đổi giữa các form
+        $scope.showForm = function (formName) {
+            $scope.currentForm = formName;
+        };
+
+        // Tải dữ liệu ban đầu
+        $scope.load_tickets();
+        $scope.load_vehicles();
+        $scope.load_accounts();
+        $scope.load_trips();
+    });
+</script>
+
+</body>
+</html>
+
